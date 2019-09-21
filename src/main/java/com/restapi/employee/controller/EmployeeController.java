@@ -1,16 +1,26 @@
 package com.restapi.employee.controller;
 
-import com.restapi.employee.model.Employee;
-import com.restapi.employee.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.restapi.employee.model.Department;
+import com.restapi.employee.model.Employee;
+import com.restapi.employee.service.EmployeeServiceImpl;
 
 /**
  * Created by sibelbayirli on 8/31/19.
  */
 @RestController
+@RequestMapping("/hr/api")
 public class EmployeeController {
     @Autowired
     EmployeeServiceImpl employeeService;
@@ -22,7 +32,8 @@ public class EmployeeController {
 
     @GetMapping("/employee/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable Integer id){
-        Employee emp = employeeService.g
+        Employee emp = employeeService.getEmployee(id);
+        return new ResponseEntity<Employee>(emp, HttpStatus.OK);
     }
 
     @PutMapping("/employee")
@@ -39,5 +50,11 @@ public class EmployeeController {
     @DeleteMapping("/employee")
     public String deleteEmployee(Integer id){
         return "Hello ";
+    }
+    @PutMapping("/department")
+    public ResponseEntity<Department> saveDepartment(@RequestBody Department department){
+    	ResponseEntity<Department> response = new ResponseEntity<Department>(employeeService.saveDepartment(department), HttpStatus.CREATED);
+        return response;
+        
     }
 }
